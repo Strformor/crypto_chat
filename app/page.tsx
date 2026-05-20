@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { PriceChart, type HistoryPoint } from '@/components/PriceChart';
 
 interface Message { role: 'user' | 'assistant'; content: string; }
-interface CoinRow  { name: string; price: string; day_pct: string; }
+interface CoinRow  { name: string; price: string; day_pct: string; weekly: string; monthly: string; }
 type Tab = 'chat' | 'trends';
 type Range = 24 | 168 | 720; // hours
 
@@ -232,6 +232,34 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
+            {/* 24h / 7d / 30d from tradingeconomics.com */}
+            {(() => {
+              const live = coins.find((c) => c.name === selectedCoin);
+              if (!live) return null;
+              const stats = [
+                { label: '24h', value: live.day_pct },
+                { label: '7d',  value: live.weekly },
+                { label: '30d', value: live.monthly },
+              ];
+              return (
+                <div className="flex gap-3 mb-6">
+                  {stats.map(({ label, value }) => {
+                    const neg = value?.startsWith('-');
+                    const empty = !value || value === '—';
+                    return (
+                      <div key={label} className="flex-1 bg-[#161b22] border border-[#30363d] rounded-xl px-4 py-3">
+                        <p className="text-[11px] text-[#8b949e] mb-1">{label} change</p>
+                        <p className={`text-lg font-bold ${empty ? 'text-[#8b949e]' : neg ? 'text-[#f85149]' : 'text-[#3fb950]'}`}>
+                          {empty ? '—' : (neg ? '▼ ' : '▲ ') + value}
+                        </p>
+                        <p className="text-[10px] text-[#8b949e] mt-0.5">tradingeconomics.com</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             {/* Chart card */}
             <div className="bg-[#161b22] border border-[#30363d] rounded-xl p-6">
