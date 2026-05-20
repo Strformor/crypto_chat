@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin as supabase } from '@/lib/supabase-server';
 import { fetchCryptoData, formatForLLM } from '@/lib/scraper';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });

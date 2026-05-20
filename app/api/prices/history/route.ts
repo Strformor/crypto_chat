@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin as supabase } from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
   const coin  = req.nextUrl.searchParams.get('coin')  ?? 'Bitcoin';

@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabaseAdmin as supabase } from './supabase-server';
 import type { CoinRow } from './scraper';
 
 // Module-level guard — warm serverless instances skip repeated DB hits
